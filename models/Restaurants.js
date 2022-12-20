@@ -1,4 +1,14 @@
 const mongoose = require('mongoose')
+const reviewSchema = mongoose.Schema({
+    body:{
+        type: String,
+        required: true
+    },
+    date:{
+        type: Date,
+        default: Date.now
+    }
+})
 const restaurantSchema = mongoose.Schema({
     name:{
         type: String,
