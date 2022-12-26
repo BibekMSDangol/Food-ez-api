@@ -15,10 +15,32 @@ const deleteAllFood =(req,res, next) =>{
         .then(reply => res.json(reply))
         .catch(err => next(err))
 }
+const getFoodById = (req,res, next)=>{
+    Food.findById(req.params.id)
+        .populate('category')
+        .then(food => res.json(food))
+        .catch(next)
+}
+
+const updateFoodById = (req,res,next)=>{
+    Food.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true})
+        .then(food => res.json(food))
+        .catch(next)
+}
+
+const deleteFoodById = (req,res, next)=>{
+    Food.findByIdAndDelete(req.params.id)
+        .then(food => res.json(food))
+        .catch(next)
+
+}
 
 
 module.exports={
     getAllFood,
     postAFood,
     deleteAllFood,
+    getFoodById,
+    updateFoodById,
+    deleteFoodById
 }
