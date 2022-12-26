@@ -10,8 +10,15 @@ const postAFood = (req,res, next) =>{
         .then(food => res.status(201).json(food))
         .catch(err => next(err))
 }
+const deleteAllFood =(req,res, next) =>{
+    Food.deleteMany()
+        .then(reply => res.json(reply))
+        .catch(err => next(err))
+}
+
 
 module.exports={
     getAllFood,
     postAFood,
+    deleteAllFood,
 }
