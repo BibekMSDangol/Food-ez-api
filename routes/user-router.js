@@ -9,6 +9,7 @@ router.post("/register", (req, res, next) => {
     .then((user) => {
       if (user != null) {
         let err = new Error(`Username ${req.body.username} already taken.`);
+        res.status(400);
         return next(err);
       }
       bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -16,6 +17,7 @@ router.post("/register", (req, res, next) => {
         user = new User();
         user.username = req.body.username;
         user.password = hash;
+        if (req.body.role) user.role = req.body.role;
         user
           .save()
           .then((user) => {
@@ -23,6 +25,7 @@ router.post("/register", (req, res, next) => {
               status: "User registration successful",
               userId: user._id,
               username: user.username,
+              role: user.role,
             });
           })
           .catch(next);
@@ -32,32 +35,39 @@ router.post("/register", (req, res, next) => {
 });
 
 router.post("/login", (req, res, next) => {
-  User.findOne({ username: req.body.username }).then((user) => {
-    if (user == null) {
-      let err = new Error('User is not registered.');
-      return next(err);
-    }
-    bcrypt.compare(req.body.password, user.password,
-      (err, success)=>{
-        if(err) return next(err)
-        if(!success){
-          let err = new Error('Password doesnt match.');
-          return next(err)
+  User.findOne({ username: req.body.username })
+    .then((user) => {
+      if (user == null) {
+        let err = new Error("User is not registered.");
+        return next(err);
+      }
+      bcrypt.compare(req.body.password, user.password, (err, success) => {
+        if (err) return next(err);
+        if (!success) {
+          let err = new Error("Password doesnt match.");
+          return next(err);
         }
-        let data ={
+        let data = {
           userId: user._id,
-          username: user.username
-        }
-        jwt.sign(data, process.env.SECRET, {expiresIn: '4d'},
-        (err, token)=>{
-          if(err) return next (err)
-          res.json({
-            status: 'Login Successful',
-            token: token
-          })
-        })
-      })
-  }).catch(next)
+          username: user.username,
+          role: user.role
+        };
+        jwt.sign(
+          data,
+          process.env.SECRET,
+          { expiresIn: "4d" },
+          (err, token) => {
+            if (err) return next(err);
+            res.json({
+              status: "Login Successful",
+              token: token,
+              role: user.role,
+            });
+          }
+        );
+      });
+    })
+    .catch(next);
 });
 
 module.exports = router;
