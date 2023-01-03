@@ -1,18 +1,17 @@
 const jwt = require('jsonwebtoken')
 
 const verifyUser = (req, res, next)=>{
-    if(!req.headers.authorized){
+    if(!req.headers.authorization){
         let err = new Error('Authorization token is misssing.')
         return next(err)
     }
-    const token = req.headers.authorization.split('')[1]
+    let token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.SECRET,(err, decoded)=>{
         if(err) return next(err)
         console.log(decoded)
         req.user = decoded
         next()
     })
-    console.log(token)
 }
 
 const verifyAdmin = (req, res, next) =>{

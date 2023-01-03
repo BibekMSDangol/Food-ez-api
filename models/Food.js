@@ -8,21 +8,13 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    type:{
+    Description:{
         type: String,
         required: true
     },
-    category:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
-    },
-        Description:{
-            type: String,
-            required: true
-        },
     restaurant:{
-        type: mongoose.Schema.Types.ObjectId, name:{
-            type: String,
+        name:{
+            
             required: true
         },
         ref: 'Restaurant'

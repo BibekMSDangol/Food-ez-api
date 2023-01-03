@@ -1,6 +1,10 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const userRouter = require("./routes/user-router");
+const orderRouter = require("./routes/order-route");
+
 
 //Connect to MongoDB
 mongoose.set('strictQuery', true);
@@ -8,6 +12,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/FE').then(()=>{
     console.log('Connected to MongoDB Database Server')
 }).catch((err)=> console.log(err))
 
+//In-built middleware
+app.use(express.json());
 
 //Application level middleware
 app.use((req, res, next) => {
@@ -15,17 +21,12 @@ app.use((req, res, next) => {
     next();
   });
 
-//In-built middleware
-app.use(express.json());
+
 
 //Router level middleware
+app.use('/user' , userRouter);
+app.use('/order' , orderRouter);
 
-app.use(login);
-
-
-function login(req, res,next){
-    res.send("Server is working")
-}
 //Error handling middleware
 app.use((err, req, res, next) => {
     console.log(err.stack);

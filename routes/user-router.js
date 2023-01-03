@@ -15,7 +15,11 @@ router.post("/register", (req, res, next) => {
       bcrypt.hash(req.body.password, 10, (err, hash) => {
         if (err) return next(err);
         user = new User();
+        user.fname = req.body.fname;
+        user.lname = req.body.lname;
         user.username = req.body.username;
+        user.contact = req.body.contact;
+        user.email = req.body.email;
         user.password = hash;
         if (req.body.role) user.role = req.body.role;
         user
@@ -50,7 +54,7 @@ router.post("/login", (req, res, next) => {
         let data = {
           userId: user._id,
           username: user.username,
-          role: user.role
+          role: user.role,
         };
         jwt.sign(
           data,
