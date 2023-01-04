@@ -17,7 +17,7 @@ const deleteAllFood =(req,res, next) =>{
 }
 const getFoodById = (req,res, next)=>{
     Food.findById(req.params.id)
-        .populate('category')
+        // .populate('category')
         .then(food => res.json(food))
         .catch(next)
 }

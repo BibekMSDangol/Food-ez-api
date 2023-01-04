@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const orderSchema = new mongoose.Schema({
     quantity:{
         type: String,
-        // required: true
+        required: true
     },
     date:{
         type: Date,

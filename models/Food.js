@@ -13,11 +13,8 @@ const foodSchema = new mongoose.Schema({
         required: true
     },
     restaurant:{
-        name:{
-            
-            required: true
-        },
-        ref: 'Restaurant'
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Restaurants'
     }
     
 },{timestamps: true})
