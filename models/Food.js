@@ -15,6 +15,10 @@ const foodSchema = new mongoose.Schema({
     restaurant:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Restaurants'
+    },
+    image:{
+        type:String,
+        require:true,
     }
     
 },{timestamps: true})
