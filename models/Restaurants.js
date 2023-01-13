@@ -14,6 +14,10 @@ const restaurantSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    location:{
+        type: String,
+        required: true
+    },
     menu:{
         type: mongoose.Schema.Types.ObjectId,name:{
             type: String,
