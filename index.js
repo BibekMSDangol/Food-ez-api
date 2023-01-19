@@ -2,8 +2,11 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const auth = require('./middleware/auth')
 const userRouter = require("./routes/user-router");
 const orderRouter = require("./routes/order-route");
+const restaurantRouter = require("./routes/restaurant-router")
+const foodRouter = require("./routes/food-router")
 
 
 //Connect to MongoDB
@@ -26,7 +29,8 @@ app.use((req, res, next) => {
 //Router level middleware
 app.use('/user' , userRouter);
 app.use('/order' , orderRouter);
-
+app.use('/restaurant', restaurantRouter);
+app.use('/food', foodRouter);
 //Error handling middleware
 app.use((err, req, res, next) => {
     console.log(err.stack);

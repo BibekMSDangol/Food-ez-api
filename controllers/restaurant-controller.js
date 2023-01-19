@@ -1,8 +1,8 @@
-const Restaurant = require("../models/Restaurants");
+const Restaurant = require("../models/Restaurant");
 
 const getAllRestaurants = (req, res, next) => {
   Restaurant.find()
-    .populate("food")
+    // .populate("food")
     .then((restaurants) => res.json(restaurants))
     .catch((err) => next(err));
 }
@@ -19,7 +19,7 @@ const deleteARestaurant = (req, res, next)=>{
 }
 const getRestaurantById = (req,res,next)=>{
     Restaurant.findById(req.params.restaurant_id)
-        .populate('food')
+        // .populate('food')
         .then(restaurant => res.json(restaurant))
         .catch(next)
 }

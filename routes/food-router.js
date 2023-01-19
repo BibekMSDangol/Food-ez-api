@@ -11,6 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .get(foodController.getFoodById)
+    .post(foodController.postAFood)
     .put(foodController.updateFoodById)
     .delete(foodController.deleteFoodById)
 

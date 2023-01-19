@@ -18,12 +18,16 @@ const restaurantSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    menu:{
-        type: mongoose.Schema.Types.ObjectId,name:{
-            type: String,
-            required: true
-        }
-
+    food:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: "Food"
     }
+    // menu:{
+    //     type: mongoose.Schema.Types.ObjectId,name:{
+    //         type: String,
+    //         required: true
+    //     }
+
+    // }
 })
-module.exports = mongoose.model('Restaurants', restaurantSchema)
+module.exports = mongoose.model('Restaurant', restaurantSchema)
