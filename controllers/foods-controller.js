@@ -3,9 +3,7 @@ const Food = require("../models/Food");
 const getAllFood = (req, res, next) => {
   Food.find()
   .populate('restaurant')
-    .then((foods) => res.status(200).json({
-      allFood : foods
-    }))
+    .then((foods) => res.status(200).json(foods))
     .catch((err) => next(err));
 };
 const postAFood = (req, res, next) => {

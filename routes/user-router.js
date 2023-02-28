@@ -8,8 +8,10 @@ const uploadImage = require("../middleware/upload")
 
 
 router.get("/", userController.getalluser)
+router.get("/:id", userController.getOneUser)
 router.post("/register",uploadImage.single('photo'), userController.createUser );
-
+router.route("/user/:id").put(userController.edituser)
+router.delete("/:id",userController.deleteuser);
 router.post("/login", userController.loginUser );
 
 router.put("/:userId/cart/:foodId", userController.addToCart )

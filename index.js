@@ -11,6 +11,7 @@ const foodRouter = require("./routes/food-router")
 const menuRouter = require("./routes/menu-router")
 const cors = require('cors')
 
+app.use(cors());
 //Connect to MongoDB
 mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://127.0.0.1:27017/FE').then(()=>{
@@ -45,6 +46,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ err: err.message });
   }); 
 
-app.listen(3000, ()=>{
-    console.log('App is runing on port 3000.')
+app.listen(3001, ()=>{
+    console.log('App is runing on port 3001.')
 })

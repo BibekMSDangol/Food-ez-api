@@ -1,14 +1,23 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { tr } = require("date-fns/locale");
 
 const getalluser = (req, res, next) => {
   User.find().then((user) => {
-    res.status(200).json({
-      allusers: user,
-    });
+    res.json(user);
   });
 };
+const getOneUser = (req, res, next) => {
+  const userid = req.params.id;
+  User.findOne({ _id: userid })
+
+    .then((user) => {
+      res.json(user);
+    })
+    .catch(next);
+};
+
 const addToCart = (req, res, next) => {
   User.findById(req.params.userId).then((user) => {
     let food = user.food.find((item) => item == req.params.foodId);
@@ -23,6 +32,14 @@ const addToCart = (req, res, next) => {
   });
 };
 const createUser = (req, res, next) => {
+  console.log(
+    req.body.fname,
+    req.body.lname,
+    req.body.username,
+    req.body.contact,
+    req.body.email,
+    req.body.password
+  );
   User.findOne({ username: req.body.username })
     .then((user) => {
       if (user != null) {
@@ -57,13 +74,14 @@ const createUser = (req, res, next) => {
 };
 
 const loginUser = (req, res, next) => {
+  console.log(req.body.username, req.body.password);
   User.findOne({ username: req.body.username })
     .then((user) => {
       if (user == null) {
         let err = new Error("User is not registered.");
         return next(err);
       }
-      console.log(req.body.password);
+
       bcrypt.compare(req.body.password, user.password, (err, success) => {
         if (err) return next(err);
         if (!success) {
@@ -79,7 +97,7 @@ const loginUser = (req, res, next) => {
           username: user.username,
           password: user.password,
           role: user.role,
-          food : user.food
+          food: user.food,
         };
         jwt.sign(
           data,
@@ -99,5 +117,35 @@ const loginUser = (req, res, next) => {
     })
     .catch(next);
 };
+const edituser = (req, res, next) => {
+  const userid = req.params.id;
+  User.findByIdAndUpdate(userid, { $set: req.body }, { new: true }).then(
+    (user) => {
+      res
+        .status(200)
+        .json({ success: true, data: user, message: "User updated" });
+    }
+  ).catch(next)
+};
+const deleteuser = (req, res, next) => {
+  const userid = req.param._id;
+  User.findOneAndDelete({ _id: userid })
+    .then((user) => {
+      res.status(200).json({
+        success: true,
+        data: user,
+        message: "Userdeleted successfully.",
+      });
+    })
+    .catch(next);
+};
 
-module.exports = { createUser, loginUser, addToCart, getalluser };
+module.exports = {
+  createUser,
+  loginUser,
+  addToCart,
+  getalluser,
+  deleteuser,
+  edituser,
+  getOneUser,
+};
