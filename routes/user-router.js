@@ -4,9 +4,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userController = require("../controllers/user-controller")
 const router = express.Router();
+const uploadImage = require("../middleware/upload")
 
-router.post("/register", userController.createUser );
+
+router.get("/", userController.getalluser)
+router.post("/register",uploadImage.single('photo'), userController.createUser );
 
 router.post("/login", userController.loginUser );
+
+router.put("/:userId/cart/:foodId", userController.addToCart )
 
 module.exports = router;

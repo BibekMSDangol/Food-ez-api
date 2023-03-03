@@ -22,14 +22,4 @@ const foodSchema = new mongoose.Schema({
     
 },{timestamps: true})
 
-const reviewSchema = new mongoose.Schema({
-    body:{
-        type: String,
-        required: true,
-    },
-    date:{
-        type: Date,
-        default: Date.now
-    }
-})
 module.exports = mongoose.model('Food', foodSchema)

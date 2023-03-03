@@ -18,9 +18,12 @@ const restaurantSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    food:{
+    food:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: "Food"
+    }],
+    image:{
+        type: String
     }
     // menu:{
     //     type: mongoose.Schema.Types.ObjectId,name:{
